@@ -332,3 +332,22 @@ main = do
     let a = map rot13 input
     putStr (a)
 
+--code message
+lettertonum :: [Char] -> [Int]
+lettertonum xs = [ ord x - ord 'A'| x <- xs]
+
+rotx :: Char -> Int -> Char
+rotx letra num = chr (mod (ord letra - ord 'A' + num) 26 + ord 'A')
+
+vigenere :: String -> String -> String
+vigenere xs ys = [ rotx x c | (x,c) <- zip ys cod]
+            where cod = cycle (lettertonum xs)
+
+-- decode message
+
+rotinverse :: Char -> Int -> Char
+rotinverse letra num = chr (mod (ord letra - ord 'A' - num) 26 + ord 'A')
+
+decode :: String -> String -> String
+decode xs ys = [ rotinverse x c | (x,c) <- zip ys cod]
+            where cod = cycle (lettertonum xs)
